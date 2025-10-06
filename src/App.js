@@ -3,43 +3,37 @@ import './App.css';
 
 function App() {
   useEffect(() => {
-    // Fade-in observer
-    const sections = document.querySelectorAll(".section");
-    const navLinks = document.querySelectorAll(".nav-links a");
-
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // Highlight nav link for active section
-            navLinks.forEach(link => {
-              link.classList.remove("active");
-              if (link.getAttribute("href") === `#${entry.target.id}`) {
-                link.classList.add("active");
-              }
-            });
-            // Add visible fade-in class
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.4 } // triggers when ~40% of section is in view
-    );
-
-    sections.forEach(sec => observer.observe(sec));
-
-    // Smooth scroll fallback for older browsers
-    const links = document.querySelectorAll("a[href^='#']");
-    links.forEach(link => {
-      link.addEventListener("click", e => {
+    // Tikai smooth scroll funkcija
+    const handleSmoothScroll = (e) => {
+      const href = e.currentTarget.getAttribute("href");
+      
+      // Pārbauda vai ir iekšējā saite (#)
+      if (href && href.startsWith('#')) {
         e.preventDefault();
-        const target = document.querySelector(link.getAttribute("href"));
-        if (target) target.scrollIntoView({ behavior: "smooth" });
-      });
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }
+      // Ārējās saites (ar target="_blank") tiks atvērtas normāli
+    };
+
+    // Pievieno klikšķa notikumu visām saitēm
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      link.addEventListener('click', handleSmoothScroll);
     });
 
+    // Cleanup
     return () => {
-      sections.forEach(sec => observer.unobserve(sec));
+      allLinks.forEach(link => {
+        link.removeEventListener('click', handleSmoothScroll);
+      });
     };
   }, []);
 
@@ -48,7 +42,7 @@ function App() {
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-container">
-          <span className="logo">EnhancedPortfolio</span>
+          <span className="logo">Portfolio</span>
           <div className="nav-links">
             <a href="#projects">Projects</a>
             <a href="#about">About</a>
@@ -60,11 +54,16 @@ function App() {
       {/* HERO */}
       <header className="hero">
         <div className="hero-content">
+          <img 
+            src="/images/your-photo.jpg" 
+            alt="Your Name"
+            className="profile-image"
+          />
           <h1 className="hero-title">
-            Designing <span>Beautiful Interfaces</span> <br /> for the Modern Web
+            Designing <span>Beautiful websites</span> <br /> for the Modern Web
           </h1>
           <p className="hero-subtitle">
-            Frontend Developer • UX Enthusiast • Creative Coder
+            Full-stack Developer
           </p>
           <a href="#projects" className="btn-primary">Explore Work</a>
         </div>
@@ -76,24 +75,25 @@ function App() {
           <h2>Featured Projects</h2>
           <div className="projects-grid">
             <div className="card soft">
-              <h3>Portfolio Builder</h3>
-              <p>A no-code tool that lets designers quickly spin up portfolio sites with templates.</p>
-              <a href="https://github.com/friend/project-one" target="_blank" rel="noopener noreferrer">
+              <h3>Hash</h3>
+              <p>My project for schools final exam, with the intention of making a place for people to share their interests!</p>
+              <a
+                href="https://github.com/Ernistoo/Gala_darbs_Hash"
+                target="_blank"
+                
+              >
                 View Project →
               </a>
             </div>
             <div className="card soft">
-              <h3>Task Management App</h3>
-              <p>A productivity app with drag-and-drop features, built with React & Firebase.</p>
-              <a href="https://github.com/friend/project-two" target="_blank" rel="noopener noreferrer">
+              <h3>IntoMyth</h3>
+              <p>A project about mythology around the world!</p>
+              <a
+                href="https://github.com/Ernistoo/IntoMyth"
+                target="_blank"
+                
+              >
                 View Project →
-              </a>
-            </div>
-            <div className="card soft">
-              <h3>Design System</h3>
-              <p>A custom UI component library inspired by Material Design + Apple HIG.</p>
-              <a href="https://github.com/friend" target="_blank" rel="noopener noreferrer">
-                GitHub Profile →
               </a>
             </div>
           </div>
@@ -102,22 +102,18 @@ function App() {
         <section id="about" className="section alt">
           <h2>About Me</h2>
           <p>
-            I’m a frontend developer passionate about clean design, smooth interactions, and delightful user experiences.
-            I work with React, Next.js, TailwindCSS, and I’m obsessed with pixel-perfect UI design.
+            I'm a full-stack developer with a passion for making websites for people to truly enjoy using my knowledge in Laravel, React, PHP, Blade, TailwindCSS and JavaScript!
           </p>
         </section>
 
         <section id="contact" className="section">
           <h2>Contact</h2>
-          <p>Email: <a href="mailto:friend.email@example.com">friend.email@example.com</a></p>
-          <p>LinkedIn: <a href="https://linkedin.com/in/friendprofile" target="_blank" rel="noopener noreferrer">linkedin.com/in/friendprofile</a></p>
-          <p>GitHub: <a href="https://github.com/friend" target="_blank" rel="noopener noreferrer">github.com/friend</a></p>
+          <p>Email: <a href="mailto:ernests.lauga@gmail.com">ernests.lauga@gmail.com</a></p>
+          <p>GitHub: <a href="https://github.com/Ernistoo" target="_blank" rel="noopener noreferrer">github.com/Ernistoo</a></p>
         </section>
       </main>
 
-      <footer>
-        <p>© {new Date().getFullYear()} Enhanced Portfolio · Built with React ⚡</p>
-      </footer>
+      
     </div>
   );
 }

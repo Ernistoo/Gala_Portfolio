@@ -9,7 +9,6 @@ body {
   color: #1e293b;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
 }
 
 h1, h2, h3 {
@@ -48,6 +47,7 @@ h1, h2, h3 {
   color: #374151;
   transition: 0.2s;
   position: relative;
+  text-decoration: none;
 }
 .nav-links a::after {
   content: "";
@@ -119,13 +119,6 @@ main {
 }
 .section {
   margin-bottom: 80px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.section.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 .section.alt {
   background: #f3f4f6;
@@ -155,22 +148,7 @@ main {
   position: relative;
   overflow: hidden;
 }
-.card.soft::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  padding: 2px;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.card.soft:hover::before {
-  opacity: 1;
-}
+
 .card.soft:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 28px rgba(99,102,241,0.25);
@@ -183,6 +161,14 @@ main {
 .card p {
   margin-bottom: 18px;
   color: #374151;
+}
+.card a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+.card a:hover {
+  text-decoration: underline;
 }
 
 /* FOOTER */
@@ -210,6 +196,20 @@ footer {
   to { opacity: 1; }
 }
 
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 20px;
+  border: 4px solid rgba(255,255,255,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  display: block;
+  animation: fadeUp 1.2s ease forwards;
+  opacity: 0;
+  animation-delay: 0.3s;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .hero h1 {
@@ -221,11 +221,8 @@ footer {
   .btn-primary {
     padding: 12px 24px;
   }
-}
-.nav-links a.active {
-  color: #6366f1;
-  font-weight: 600;
-}
-.nav-links a.active::after {
-  width: 100%;
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
 }
